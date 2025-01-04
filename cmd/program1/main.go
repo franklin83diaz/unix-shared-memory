@@ -1,5 +1,16 @@
 package main
 
+/*
+#cgo LDFLAGS: -lrt
+#include <semaphore.h>
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <unistd.h>
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+*/
+
 import (
 	"fmt"
 	"os"
@@ -37,10 +48,17 @@ func main() {
 		os.Exit(1)
 	}
 	defer unix.Munmap(mem)
+	mem[0] = 0
+
+	fmt.Println("Press ENTER to write data to the shared memory")
+	fmt.Scanln()
 
 	// Write data to the shared memory object
 	message := "Hello from writer!"
-	copy(mem, message)
+	copy(mem[1:], message)
+
+	// set signal to reader
+	mem[0] = 1
 
 	fmt.Println("Data Write in the shared memory:", message)
 

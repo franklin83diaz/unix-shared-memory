@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"golang.org/x/sys/unix"
 )
@@ -28,8 +29,16 @@ func main() {
 		fmt.Println("Error maping the memory:", err)
 		os.Exit(1)
 	}
+
+	for {
+		if mem[0] == 1 {
+			break
+		}
+		time.Sleep(100 * time.Millisecond)
+	}
+
 	defer unix.Munmap(mem)
 
 	// Read the shared memory
-	fmt.Println("Readed:", string(mem))
+	fmt.Println("Readed:", string(mem[1:]))
 }
