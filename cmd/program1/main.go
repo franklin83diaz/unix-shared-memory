@@ -8,8 +8,8 @@ import (
 )
 
 const (
-	memName = "/shm_example1" // name of the shared memory object
-	memSize = 1024            // size of the shared memory object (bytes)
+	memName = "/share_mem1" // name of the shared memory object
+	memSize = 1024          // size of the shared memory object (bytes)
 )
 
 func main() {
